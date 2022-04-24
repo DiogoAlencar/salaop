@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Saídas</title>
+	
+	<!-- Bootstrap CSS -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+		
+	<!-- JQuery -->		
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+<style type="text/css">
+.divform {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+	padding: 16px;
+}
+.divformTabelaVtr {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+    overflow: auto;
+    padding: 0px 16px 0 16px;
+}
+.titulo {
+	width: 100%;
+	position: absolute;
+	text-align: center;	
+}
+table>thead {
+	background-color: #FFFFFF;
+}
+table>thead>tr>td {
+	font-weight: bold;
+}
+
+.modalMenu {
+	width: 300px;
+}
+.modal-contentMenu {
+	width: 300px;
+}
+
+.list-group-item:hover {
+	background-color: rgb(59, 57, 57, 0.164) !important;
+}
+
+a#navbarDropdown {
+	color: black;
+}
+
+.nav-item {
+	padding: 0px;
+}
+select>option>p {
+	display: none;
+}	
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+	
+	var larguraTela = $(window).width();
+	
+	$("#imagem-logo").width(larguraTela / 10);
+	$("#imagem-logo").height(larguraTela / 10);
+	
+	carregarViaturasSelect();
+	carregarMotoristaSelect();
+	
+	$("#viatura").change(function(){
+		var pref = $("#viatura").val().split(" ");
+		$("#prefixo").val(pref[0]);
+	});
+	
+});
+
+</script>
+
+</head>
+<body>
+
+
+
+<nav class="navbar navbar-light bg-light shadow sticky-top">
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#modalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+<img class="position-fixed top-0 end-0 sticky-top" id="imagem-logo" alt="" src="imagens/brasao.png" />
+
+
+
+<!-- Modal -->
+	<div class="modal modalMenu fade" id="modalMenu" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content modal-contentMenu">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes" style="text-decoration:none;color:black;">Início</a>
+						</li>
+						
+						<li class="list-group-item nav-item dropdown">
+							
+							<a class="nav-link dropdown-toggle"
+							href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Cadastro</a>
+							
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroefetivo">Efetivo</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroviaturas">Viaturas</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrotelefones">Telefones</a></li>
+								<li class="dropdown-item">Saídas</li>
+							</ul>
+						</li>
+						
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/viaturas" style="text-decoration:none;color:black;">
+								Viaturas
+							</a>
+						</li>
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/telefones" style="text-decoration:none;color:black;">
+								Telefones
+							</a>
+						</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<br>
+<div class="titulo"><h3>Cadastro de Saídas</h3></div>
+<br>
+
+<div class="divform">
+	<form action="" method="post" id="formularioCadastro">
+		<div class="row">
+			<div class="mb-3 col-2" hidden="true">
+		    	<label for="id" class="form-label">Id</label>
+		    	<input type="text" class="form-control" id="id" name="id" readonly="readonly">
+		    </div>
+		  <div class="mb-3 col">
+		  	<label for="viatura" class="form-label">Viatura</label>
+		    <select id="viatura" name="viatura" class="form-select" aria-label="Default select example">
+		    	<option selected value="Selecione a Viatura">Selecione a Viatura</option>
+		    </select>
+		    <input type="text" id="prefixo" name="prefixo" class="form-control" hidden="true"/>
+		  </div>
+		  <div class="mb-3 col">
+		  	<label for="dataSaida" class="form-label">Data Saída</label>
+		    <input type="date" id="dataSaida" name="dataSaida" class="form-control" />
+		  </div>
+		  <div class="mb-3 col">
+		  	<label for="horaSaida" class="form-label">Hora Saída</label>
+		    <input type="time" id="horaSaida" name="horaSaida" class="form-control" />
+		  </div>
+		</div>
+		
+		<div class="row">
+			<div class="mb-3 col">
+			  	<label for="motorista" class="form-label">Motorista</label>
+			    <select id="motorista" name="motorista" class="form-select" aria-label="Default select example">
+			    	<option selected value="Selecione o motorista">Selecione o motorista</option>
+			    </select>
+		    </div>
+		    <div class="mb-3 col">
+	    		<label for="destino" class="form-label">Destino</label>
+	    		<input type="text" class="form-control" id="destino" name="destino">
+	  		</div>
+	  		<div class="mb-3 col">
+		  	<label for="dataChegada" class="form-label">Data Chegada</label>
+		    <input type="date" id="dataChegada" name="dataChegada" class="form-control" />
+		  </div>
+		  <div class="mb-3 col">
+		  	<label for="horaChegada" class="form-label">Hora Chegada</label>
+		    <input type="time" id="horaChegada" name="horaChegada" class="form-control" />
+		  </div>
+		</div>
+		<div class="row">
+			<div class="mb-3 col">
+	    		<label for="observacao" class="form-label">Observação</label>
+	    		<textarea class="form-control" id="observacao" name="observacao" style="height: 100px;"></textarea>
+	  		</div>
+		</div>
+		<button type="button" class="btn btn-primary" onclick="salvarSaida()">Salvar</button>
+	 	<button type="button" class="btn btn-primary" onclick="botaoCancelar()">Cancelar</button>
+	</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+function salvarSaida() {
+	
+	var id = $("#id").val();
+	var viatura = $("#viatura").val();
+	var prefixo = $("#prefixo").val();
+	var dataSaida = $("#dataSaida").val();
+	var dataChegada = $("#dataChegada").val();
+	var horaSaida = $("#horaSaida").val();
+	var horaChegada = $("#horaChegada").val();
+	var destino = $("#destino").val();
+	var motorista = $("#motorista").val();
+	var observacao = $("#observacao").val();
+	
+	if (viatura === 'Selecione a Viatura') {
+		alert('Selecione a Viatura');
+		$("#viatura").focus();
+		return;
+	}
+	if (dataSaida === '') {
+		alert('Informe a Data da Saída');
+		$("#dataSaida").focus();
+		return;
+	}
+	if (horaSaida === '') {
+		alert('Informe a Hora da Saída');
+		$("#horaSaida").focus();
+		return;
+	}
+	if (motorista === 'Selecione o motorista') {
+		alert('Selecione o motorista');
+		$("#motorista").focus();
+		return;
+	}
+	if (destino === '') {
+		alert('Informe o destino da viatura');
+		$("#destino").focus();
+		return;
+	}
+	
+	
+	$.ajax({
+		method : "POST",
+		url : "salvarSaida",
+		data : JSON.stringify({
+			id : id,
+			viatura : viatura,
+			prefixo : prefixo,
+			dataSaida : dataSaida,
+			dataChegada : dataChegada,
+			horaSaida : horaSaida,
+			horaChegada : horaChegada,
+			destino : destino,
+			motorista : motorista,
+			observacao : observacao,
+		}),
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			location.reload(true);
+			alert("Saída salva com sucesso!");
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao salvar Saída " + xhr.responseText)
+	});
+	
+}
+
+function carregarViaturasSelect () {
+	
+	$.ajax({
+		method : "GET",
+		url : "listaTodasViaturas",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+
+		/* $('#viatura > option').remove(); */
+			
+		for (var i = 0; i < response.length; i++) {
+								
+			$('#viatura').append('<option>'+response[i].tipo+" "+response[i].prefixo+'</option>');
+
+		}
+
+		}
+		}).fail(
+			function(xhr, status, errorThrown) {
+				alert("Erro ao pesquisar Viaturas " + xhr.responseText)
+		});
+}
+
+function carregarMotoristaSelect(){
+	$.ajax({
+		method : "GET",
+		url : "listaTodoEfetivo",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+
+		/* $('#motorista > option').remove(); */
+
+		for (var i = 0; i < response.length; i++) {
+
+			$('#motorista').append('<option>'+response[i].graduacao+" "+response[i].nome+'</option>');
+
+		}
+
+		}
+		}).fail(
+			function(xhr, status, errorThrown) {
+				alert("Erro ao pesquisar ME " + xhr.responseText)
+		});
+}
+
+</script>
+
+</body>
+</html>

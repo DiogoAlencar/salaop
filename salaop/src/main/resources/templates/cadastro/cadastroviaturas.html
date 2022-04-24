@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Viaturas</title>
+	
+	<!-- Bootstrap CSS -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+		
+	<!-- JQuery -->		
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+<style type="text/css">
+
+.divform {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+	padding: 16px;
+}
+.divformTabelaVtr {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+    overflow: auto;
+    padding: 0px 0px 0px 0px;
+}
+.titulo {
+	width: 100%;
+	position: absolute;
+	text-align: center;	
+}
+table>thead {
+	background-color: #FFFFFF;
+}
+table>thead>tr>td {
+	font-weight: bold;
+	text-align: center;
+}
+table>tbody>tr>td {
+	text-align: center;
+}
+.modalMenu {
+	width: 300px;
+}
+.modal-contentMenu {
+	width: 300px;
+}
+
+.list-group-item:hover {
+	background-color: rgb(59, 57, 57, 0.164) !important;
+}
+
+a#navbarDropdown {
+	color: black;
+}
+
+.nav-item {
+	padding: 0px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+	
+	var larguraTela = $(window).width();
+	var alturaTela = $(window).height();
+	var alturaMenu = $("#nav-menu").height();
+	var alturaSombra = $(".shadow").height();
+	
+	$("#imagem-logo").width(larguraTela / 10);
+	$("#imagem-logo").height(larguraTela / 10);
+	$(".divformTabelaVtr").height(alturaTela - (alturaMenu + (alturaSombra/2)));
+	
+	carregarTabela();
+	
+});
+
+</script>
+
+</head>
+<body><!-- onload="carregarTabela()" -->
+
+<nav class="navbar navbar-light bg-light shadow sticky-top" id="nav-menu">
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#modalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+<img class="position-fixed top-0 end-0 sticky-top" id="imagem-logo" alt="" src="imagens/brasao.png" />
+
+<!-- Modal -->
+	<div class="modal modalMenu fade" id="modalMenu" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content modal-contentMenu">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes" style="text-decoration:none;color:black;">Início</a>
+						</li>
+						
+						<li class="list-group-item nav-item dropdown">
+							
+							<a class="nav-link dropdown-toggle"
+							href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Cadastro</a>
+							
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroefetivo">Efetivo</a></li>
+								<li class="dropdown-item">Viaturas</li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrotelefones">Telefones</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrosaida">Saídas</a></li>
+							</ul>
+						</li>
+						
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/viaturas" style="text-decoration:none;color:black;">
+								Viaturas
+							</a>
+						</li>
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/telefones" style="text-decoration:none;color:black;">
+								Telefones
+							</a>
+						</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<br>
+<div class="titulo"><h3>Cadastro de Viaturas</h3></div>
+<br>
+
+<div class="divform">
+	<form action="" method="post" id="formularioCadastro">
+	  <div class="row">
+		  <div class="mb-3 col-2">
+		    <label for="id" class="form-label">Id</label>
+		    <input type="text" class="form-control" id="id" name="id" readonly="readonly">
+		  </div>
+		  <div class="mb-3 col-2">
+		    <label for="tipo" class="form-label">Tipo VTR</label>
+		    <select id="tipo" name="tipo" class="form-select" aria-label="Default select example">
+			  <option value="ABT">ABT</option>
+			  <option value="AT">AT</option>
+			  <option value="ATP">ATP</option>
+			  <option value="AEM">AEM</option>
+			  <option value="EIN">EIN</option>
+			  <option value="AGA">AGA</option>
+			  <option value="AR">AR</option>
+			</select>
+		  </div>
+		  <div class="mb-3 col-8">
+		    <label for="marca" class="form-label">Marca</label>
+		    <input type="text" class="form-control" id="marca" name="marca">
+		  </div>
+	  </div>
+	  
+	  <div class="row">
+		  <div class="mb-3 col">
+		    <label for="prefixo" class="form-label">Prefixo</label>
+		    <input type="text" class="form-control" id="prefixo" name="prefixo">
+		  </div>
+		  <div class="mb-3 col">
+		    <label for="placa" class="form-label">Placa</label>
+		    <input type="text" class="form-control" id="placa" name="placa">
+		  </div>
+		  <div class="mb-3 col-2">
+		    <label for="situacao" class="form-label">Situacao</label>
+		    <select id="situacao" name="situacao" class="form-select" aria-label="Default select example">
+			  <option value="QAP">QAP</option>
+			  <option value="FA">FA</option>
+			</select>
+		  </div>
+	  </div>
+	 
+	  <div class="mb-3">
+	  	  <label for="observacao" class="form-label">Observações</label>
+  		  <textarea class="form-control" id="observacao" name="observacao" style="height: 100px; margin-bottom: 16px;"></textarea>
+	  </div>
+	  
+	  <button type="button" class="btn btn-primary" onclick="salvarViatura()">Salvar</button>
+	  <button type="button" class="btn btn-primary" onclick="botaoCancelar()">Cancelar</button>
+	</form>
+</div>
+
+
+<!--     FORMULÁRIO DE PESQUISA       -->
+<div class="divform" style="padding-bottom:0px;">
+	<form id="formPesquisa">
+		<div class="row justify-content-center">
+			<div class="mb-3 col-9" style="text-align:right;">
+				<input type="text" class="form-control" id="inputNomePesquisa" name="inputNomePesquisa" placeholder="Pesquise pelo PREFIXO da VTR">
+			</div>
+			<div class="mb-3 col-3">
+				<button type="button" style="width:100%;" class="btn btn-primary" onclick="pesquisarViatura()">Pesquisar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="divformTabelaVtr">
+<table class="table table-striped" id="tabelaViaturas">
+  <thead class="sticky-top table-dark">
+   <tr>
+    <td>Tipo</td>
+    <td>Pref</td>
+    <td>Marca</td>
+    <td>Situação</td>
+    <td>Editar</td>
+    <td>Excluir</td>
+   </tr>
+  </thead>
+  <tbody>
+   
+  </tbody>
+</table>
+</div>
+ 
+
+
+<script type="text/javascript">
+
+function pesquisarViatura(){
+	
+	var pref = $("#inputNomePesquisa").val();
+	
+	if (pref != null && pref.trim() != '') {
+		
+		$.ajax({
+			method : "GET",
+			url : "pesquisarViaturaPorPrefixo",
+			data : "pref=" + pref,
+			success : function(response) {
+
+				$('#tabelaViaturas > tbody > tr').remove();
+
+				for (var i = 0; i < response.length; i++) {
+										
+					$('#tabelaViaturas > tbody').append('<tr id="'+response[i].id+'">'+
+					'<td>'+response[i].tipo+'</td>'+
+					'<td>'+response[i].prefixo+'</td>'+
+					'<td>'+response[i].marca+'</td>'+
+					'<td>'+response[i].situacao+'</td>'+
+					'<td><button type="button" class="btn btn-primary" onclick="colocarEmEdicao('+response[i].id+')">Editar</button></td>'+
+					'<td><button type="button" class="btn btn-danger" onclick="excluirViatura('+response[i].id+')">Excluir</button></td></tr>');
+					
+				}
+
+			}
+			}).fail(
+				function(xhr, status, errorThrown) {
+					alert("Erro ao pesquisar Viatura " + xhr.responseText)
+			});
+		
+	} else {
+		
+		carregarTabela();
+		
+	}
+	
+}
+
+function botaoCancelar() {
+	var form = document.getElementById('formularioCadastro');
+	var formPesq = document.getElementById('formPesquisa');
+	form.reset();
+	formPesq.reset();
+	carregarTabela();
+}
+
+function salvarViatura() {
+	
+	var id = $("#id").val();
+	var tipo = $("#tipo").val();
+	var marca = $("#marca").val();
+	var placa = $("#placa").val();
+	var prefixo = $("#prefixo").val();
+	var situacao = $("#situacao").val();
+	var observacao = $("#observacao").val();
+	
+	if (marca == null || marca != null && marca.trim() == '') {
+		alert('Informe a Marca do veículo');
+		$("#marca").focus();
+		return;
+	}
+	if (placa == null || placa != null && placa.trim() == '') {
+		alert('Informe a Placa do veículo');
+		$("#placa").focus();
+		return;
+	}
+	if (prefixo == null || prefixo != null && prefixo.trim() == '') {
+		alert('Informe o Prefixo do veículo');
+		$("#prefixo").focus();
+		return;
+	}
+	
+	$.ajax({
+		method : "POST",
+		url : "salvarViatura",
+		data : JSON.stringify({
+			id : id,
+			tipo : tipo,
+			prefixo : prefixo,
+			marca : marca,
+			placa : placa,
+			situacao : situacao,
+			observacao : observacao,
+		}),
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			$("#id").val(response.id);
+			location.reload(true);
+			alert("Viatura salva com sucesso!");
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao salvar Viatura " + xhr.responseText)
+	});
+	
+}
+
+
+function carregarTabela() {
+	
+	$.ajax({
+		method : "GET",
+		url : "listaTodasViaturas",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+
+		$('#tabelaViaturas > tbody > tr').remove();
+
+		for (var i = 0; i < response.length; i++) {
+								
+
+			$('#tabelaViaturas > tbody').append('<tr id="'+response[i].id+'">'+
+			'<td>'+response[i].tipo+'</td>'+
+			'<td>'+response[i].prefixo+'</td>'+
+			'<td>'+response[i].marca+'</td>'+
+			'<td>'+response[i].situacao+'</td>'+
+			'<td><button type="button" class="btn btn-primary" onclick="colocarEmEdicao('+response[i].id+')">Editar</button></td>'+
+			'<td><button type="button" class="btn btn-danger" onclick="excluirViatura('+response[i].id+')">Excluir</button></td></tr>');
+
+		}
+
+		}
+		}).fail(
+			function(xhr, status, errorThrown) {
+				alert("Erro ao pesquisar Viaturas " + xhr.responseText)
+		});
+	
+}
+
+
+function excluirViatura(idVtr) {
+
+	if (confirm("Deseja realmente excluir essa viatura?")) {
+		
+		$.ajax({
+			method : "DELETE",
+			url : "excluirviatura",
+			data : "idVtr=" + idVtr,
+			success : function(response) {
+		
+				//$("#"+idFone).remove();
+				//$("#"+idFone+"tblPesq").remove();
+				//alert(response);
+				carregarTabela();
+				
+			}
+		}).fail(function(xhr, status, errorThrown) {
+			alert("Erro ao excluir viatura por id " + xhr.responseText)
+		});
+		
+	}
+	
+}
+
+
+function colocarEmEdicao(idViatura) {
+	
+	$.ajax({
+		method : "GET",
+		url : "buscarViaturaPorId",
+		data : "idViatura=" + idViatura,
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+	
+			$("#id").val(response.id);
+			$("#tipo").val(response.tipo);
+			$("#marca").val(response.marca);
+			$("#placa").val(response.placa);
+			$("#prefixo").val(response.prefixo);
+			$("#situacao").val(response.situacao);
+			$("#observacao").val(response.observacao);
+			
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao pesquisar viatura por id " + xhr.responseText)
+	});
+	
+	
+}
+
+</script>
+
+</body>
+</html>

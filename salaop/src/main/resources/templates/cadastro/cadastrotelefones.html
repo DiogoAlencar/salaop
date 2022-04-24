@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Telefones</title>
+	
+	<!-- Bootstrap CSS -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+		
+	<!-- JQuery -->		
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+<style type="text/css">
+
+.divform {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+	padding: 16px;
+}
+.divformTabelaTelefones {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+    overflow: auto;
+    padding: 0px 0px 0px 0px;
+}
+.titulo {
+	width: 100%;
+	position: absolute;
+	text-align: center;	
+}
+
+table>thead {
+	background-color: #FFFFFF;
+}
+
+table>thead>tr>td {
+	font-weight: bold;
+	text-align: center;
+}
+table>tbody>tr>td {
+	text-align: center;
+}
+.modalMenu {
+	width: 300px;
+}
+.modal-contentMenu {
+	width: 300px;
+}
+
+.list-group-item:hover {
+	background-color: rgb(59, 57, 57, 0.164) !important;
+}
+
+a#navbarDropdown {
+	color: black;
+}
+
+.nav-item {
+	padding: 0px;
+}
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+	
+	var larguraTela = $(window).width();
+	var alturaTela = $(window).height();
+	var alturaMenu = $("#nav-menu").height();
+	var alturaSombra = $(".shadow").height();
+	
+	$("#imagem-logo").width(larguraTela / 10);
+	$("#imagem-logo").height(larguraTela / 10);
+	$(".divformTabelaTelefones").height(alturaTela - (alturaMenu + (alturaSombra/2)));
+	
+	var telefoneEmergencia = $("#telefoneEmergencia");
+	var campoTelefonePrincipal = $("#telefonePrincipal");
+	var campoTelefoneFixUm = $("#telefoneFixoUm");
+	var campoTelefoneFixDois = $("#telefoneFixoDois");
+	var campoCelularUm = $("#celularUm");
+	var campoCelularDois = $("#celularDois");
+	
+	telefoneEmergencia.mask('000');
+	campoTelefonePrincipal.mask('(00)0000-0000');
+	campoTelefoneFixUm.mask('(00)0000-0000');
+	campoTelefoneFixDois.mask('(00)0000-0000');
+	campoCelularUm.mask('(00) 0 0000-0000');
+	campoCelularDois.mask('(00) 0 0000-0000');
+	
+	carregarTabela();
+	
+});
+
+</script>
+
+</head>
+<body><!-- onload="carregarTabela()" -->
+
+<nav class="navbar navbar-light bg-light shadow sticky-top" id="nav-menu">
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#modalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+<img class="position-fixed top-0 end-0 sticky-top" id="imagem-logo" alt="" src="imagens/brasao.png" />
+
+<!-- Modal -->
+	<div class="modal modalMenu fade" id="modalMenu" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content modal-contentMenu">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes" style="text-decoration:none;color:black;">Início</a>
+						</li>
+						
+						<li class="list-group-item nav-item dropdown">
+							
+							<a class="nav-link dropdown-toggle"
+							href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Cadastro</a>
+							
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroefetivo">Efetivo</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroviaturas">Viaturas</a></li>
+								<li class="dropdown-item">Telefones</li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrosaida">Saídas</a></li>
+							</ul>
+						</li>
+						
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/viaturas" style="text-decoration:none;color:black;">
+								Viaturas
+							</a>
+						</li>
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/telefones" style="text-decoration:none;color:black;">
+								Telefones
+							</a>
+						</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<br>
+<div class="titulo"><h3>Cadastro de Telefones</h3></div>
+<br>
+
+<div class="divform">
+	<form action="" method="post" id="formularioCadastro">
+	  <div class="mb-3">
+	    <label for="id" class="form-label">Id</label>
+	    <input type="text" class="form-control" id="id" name="id" readonly="readonly">
+	  </div>
+	  <div class="mb-3">
+	    <label for="nome" class="form-label">Nome</label>
+	    <input type="text" class="form-control" id="nome" name="nome">
+	  </div>
+	  <div class="row">
+		  <div class="mb-3 col">
+		    <label for="telefoneEmergencia" class="form-label">Telefone de Emergência</label>
+		    <input type="text" class="form-control" id="telefoneEmergencia" name="telefoneEmergencia">
+		  </div>
+		  <div class="mb-3 col">
+		    <label for="telefonePrincipal" class="form-label">Telefone Principal</label>
+		    <input type="text" class="form-control" id="telefonePrincipal" name="telefonePrincipal">
+		  </div>
+	  </div>
+	  <div class="row">
+		  <div class="mb-3 col">
+		    <label for="telefoneFixoUm" class="form-label">Telefone Fixo 1</label>
+		    <input type="text" class="form-control" id="telefoneFixoUm" name="telefoneFixoUm">
+		  </div>
+		  <div class="mb-3 col">
+		    <label for="telefoneFixoDois" class="form-label">Telefone Fixo 2</label>
+		    <input type="text" class="form-control" id="telefoneFixoDois" name="telefoneFixoDois">
+		  </div>
+	  </div>
+	  <div class="row">
+		  <div class="mb-3 col">
+		    <label for="celularUm" class="form-label">Celular 1</label>
+		    <input type="text" class="form-control" id="celularUm" name="celularUm">
+		  </div>
+		  <div class="mb-3 col">
+		    <label for="celularDois" class="form-label">Celular 2</label>
+		    <input type="text" class="form-control" id="celularDois" name="celularDois">
+		  </div>
+	  </div>
+	  <div class="mb-3">
+	  	  <label for="observacao" class="form-label">Observações</label>
+  		  <textarea class="form-control" id="observacao" name="observacao" style="height: 100px; margin-bottom: 16px;"></textarea>
+	  </div>
+	  
+	  <button type="button" class="btn btn-primary" onclick="salvarTelefone()">Salvar</button>
+	  <button type="button" class="btn btn-primary" onclick="botaoCancelar()">Cancelar</button>
+	  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pesquisaModal">Pesquisar</button> -->
+	</form>
+</div>
+
+
+<!--     FORMULÁRIO DE PESQUISA       -->
+<div class="divform" style="padding-bottom:0px;">
+	<form id="formPesquisa">
+		<div class="row justify-content-center">
+			<div class="mb-3 col-9" style="text-align:right;">
+				<input type="text" class="form-control" id="inputNomePesquisa" name="inputNomePesquisa">
+			</div>
+			<div class="mb-3 col-3">
+				<button type="button" style="width:100%;" class="btn btn-primary" onclick="pesquisarTelefone()">Pesquisar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="divformTabelaTelefones">
+<table class="table table-striped" id="tabelaTelefones">
+  <thead class="sticky-top table-dark">
+   <tr>
+    <td>Nome</td>
+    <td>Telefone Emergência</td>
+    <td>Telefone Principal</td>
+    <td>Editar</td>
+    <td>Excluir</td>
+   </tr>
+  </thead>
+  <tbody>
+   
+  </tbody>
+</table>
+</div>
+ 
+ 
+<script type="text/javascript">
+
+function pesquisarTelefone(){
+	
+	var nome = $("#inputNomePesquisa").val();
+	
+	if (nome != null && nome.trim() != '') {
+		
+		$.ajax({
+			method : "GET",
+			url : "buscarTelefonePorNome",
+			data : "nome=" + nome,
+			success : function(response) {
+
+				$('#tabelaTelefones > tbody > tr').remove();
+
+				for (var i = 0; i < response.length; i++) {
+                   
+					$('#tabelaTelefones > tbody').append('<tr id="'+response[i].id+'">'+
+					'<td>'+response[i].nome+'</td>'+
+					'<td>'+response[i].telefoneEmergencia+'</td>'+
+					'<td>'+response[i].telefonePrincipal+'</td>'+
+					'<td><button type="button" class="btn btn-primary" onclick="colocarEmEdicao('+response[i].id+')">Editar</button></td>'+
+					'<td><button type="button" class="btn btn-danger" onclick="excluirTelefone('+response[i].id+')">Excluir</button></td></tr>');
+					
+				}
+
+			}
+			}).fail(
+				function(xhr, status, errorThrown) {
+					alert("Erro ao pesquisar Telefone " + xhr.responseText)
+			});
+		
+	} else {
+		
+		carregarTabela();
+		
+	}
+	
+}
+
+function botaoCancelar() {
+	var form = document.getElementById('formularioCadastro');
+	var formPesq = document.getElementById('formPesquisa');
+	form.reset();
+	formPesq.reset();
+	carregarTabela();
+}
+
+function salvarTelefone(){
+	
+	var id = $("#id").val();
+	var nome = $("#nome").val();
+	var telefoneEmergencia = $("#telefoneEmergencia").val();
+	var telefonePrincipal = $("#telefonePrincipal").val();
+	var telefoneFixoUm = $("#telefoneFixoUm").val();
+	var telefoneFixoDois = $("#telefoneFixoDois").val();
+	var celularUm = $("#celularUm").val();
+	var celularDois = $("#celularDois").val();
+	var observacao = $("#observacao").val();
+	
+	if (nome == null || nome != null && nome.trim() == '') {
+		alert('Informe o nome');
+		$("#nome").focus();
+		return;
+	}
+	
+	if (telefonePrincipal == null || telefonePrincipal != null && telefonePrincipal.trim() == '') {
+		alert('Informe o Telefone Principal');
+		$("#telefonePrincipal").focus();
+		return;
+	}
+	
+	$.ajax({
+		method : "POST",
+		url : "salvarTelefone",
+		data : JSON.stringify({
+			id : id,
+			nome : nome,
+			telefoneEmergencia : telefoneEmergencia,
+			telefonePrincipal : telefonePrincipal,
+			telefoneFixoUm : telefoneFixoUm,
+			telefoneFixoDois : telefoneFixoDois,
+			celularUm : celularUm,
+			celularDois : celularDois,
+			observacao : observacao
+		}),
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			$("#id").val(response.id);
+			location.reload(true);
+			alert("Telefone salvo com sucesso!");
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao salvar Telefone " + xhr.responseText)
+	});
+	
+}
+
+function carregarTabela(){
+	
+	$.ajax({
+		method : "GET",
+		url : "listaTodosTelefones",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+
+		$('#tabelaTelefones > tbody > tr').remove();
+
+		for (var i = 0; i < response.length; i++) {
+								
+
+			$('#tabelaTelefones > tbody').append('<tr id="'+response[i].id+'">'+
+			'<td>'+response[i].nome+'</td>'+
+			'<td>'+response[i].telefoneEmergencia+'</td>'+
+			'<td>'+response[i].telefonePrincipal+'</td>'+
+			'<td><button type="button" class="btn btn-primary" onclick="colocarEmEdicao('+response[i].id+')">Editar</button></td>'+
+			'<td><button type="button" class="btn btn-danger" onclick="excluirTelefone('+response[i].id+')">Excluir</button></td></tr>');
+
+		}
+
+		}
+		}).fail(
+			function(xhr, status, errorThrown) {
+				alert("Erro ao pesquisar Telefones " + xhr.responseText)
+		});
+	
+}
+
+function excluirTelefone(idFone) {
+
+	if (confirm("Deseja realmente excluir esse telefone?")) {
+		
+		$.ajax({
+			method : "DELETE",
+			url : "excluirtelefone",
+			data : "idFone=" + idFone,
+			success : function(response) {
+		
+				//$("#"+idFone).remove();
+				//$("#"+idFone+"tblPesq").remove();
+				//alert(response);
+				carregarTabela();
+				
+			}
+		}).fail(function(xhr, status, errorThrown) {
+			alert("Erro ao excluir telefone por id " + xhr.responseText)
+		});
+		
+	}
+	
+}
+
+function colocarEmEdicao(idFone) {
+	
+	$.ajax({
+		method : "GET",
+		url : "buscarTelefonePorId",
+		data : "idFone=" + idFone,
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+	
+			$("#id").val(response.id);
+			$("#nome").val(response.nome);
+			$("#telefoneEmergencia").val(response.telefoneEmergencia);
+			$("#telefonePrincipal").val(response.telefonePrincipal);
+			$("#telefoneFixoUm").val(response.telefoneFixoUm);
+			$("#telefoneFixoDois").val(response.telefoneFixoDois);
+			$("#celularUm").val(response.celularUm);
+			$("#celularDois").val(response.celularDois);
+			$("#observacao").val(response.observacao);
+			
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao pesquisar telefone por id " + xhr.responseText)
+	});
+	
+	
+}
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Efetivo</title>
+
+<!-- Bootstrap CSS -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+	<!-- JQuery -->		
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+		
+<style type="text/css">
+.divform {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+	padding: 16px;
+}
+.divformTabelaEfetivo {
+	width: 80%;
+	display: block;
+	margin: 50px auto 0px auto;
+	border: 1px solid gray;
+	padding: 0px 0px 0px 0px;
+	overflow: auto;
+}
+.titulo {
+	width: 100%;
+	position: absolute;
+	text-align: center;	
+}
+table>thead {
+	background-color: #FFFFFF;
+}
+table>thead>tr>td {
+	font-weight: bold;
+	text-align: center;
+}
+table>tbody>tr>td {
+	text-align: center;
+}
+.modal {
+	width: 300px;
+}
+.modal-content {
+	width: 300px;
+}
+
+.list-group-item:hover {
+	background-color: rgb(59, 57, 57, 0.164) !important;
+}
+
+a#navbarDropdown {
+	color: black;
+}
+
+.nav-item {
+	padding: 0px;
+}
+
+</style>		
+
+<script type="text/javascript">
+$(function(){
+	
+	var larguraTela = $(window).width();
+	var alturaTela = $(window).height();
+	var alturaMenu = $("#nav-menu").height();
+	var alturaSombra = $(".shadow").height();
+	
+	$("#imagem-logo").width(larguraTela / 10);
+	$("#imagem-logo").height(larguraTela / 10);
+	$(".divformTabelaEfetivo").height(alturaTela - (alturaMenu + (alturaSombra/2)));
+	
+	
+});
+</script>
+
+</head>
+<body onload="carregarTabela()">
+
+
+<nav class="navbar navbar-light bg-light shadow sticky-top" id="nav-menu"> <!-- navbar-light bg-light -->
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#modalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+<img class="position-fixed top-0 end-0 sticky-top" id="imagem-logo" alt="" src="imagens/brasao.png" />
+
+<!-- Modal -->
+	<div class="modal fade" id="modalMenu" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes" style="text-decoration:none;color:black;">Início</a>
+						</li>
+						
+						<li class="list-group-item nav-item dropdown">
+							
+							<a class="nav-link dropdown-toggle"
+							href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Cadastro</a>
+							
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li class="dropdown-item">Efetivo</li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroviaturas">Viaturas</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrotelefones">Telefones</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrosaida">Saídas</a></li>
+							</ul>
+						</li>
+						
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/viaturas" style="text-decoration:none;color:black;">
+								Viaturas
+							</a>
+						</li>
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/telefones" style="text-decoration:none;color:black;">
+								Telefones
+							</a>
+						</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<br>
+<div class="titulo"><h3>Cadastro de Efetivo</h3></div>
+<br>
+
+<div class="divform">
+	<form action="" method="post" id="formularioCadastro">
+	  <div class="row">
+		  <div class="mb-3 col" hidden="true">
+		    <label for="id" class="form-label">Id</label>
+		    <input type="text" class="form-control" id="id" name="id" readonly="readonly">
+		  </div>
+		  <div class="mb-3 col-2">
+		    <label for="idfunc" class="form-label">Id Func</label>
+		    <input type="text" class="form-control" id="idfunc" name="idfunc">
+		  </div>
+		  <div class="mb-3 col-10">
+		    <label for="nome" class="form-label">Nome de Guerra</label>
+		    <input type="text" class="form-control" id="nome" name="nome">
+		  </div>
+	  </div>
+	  <div class="row">
+		  <div class="mb-3 col">
+		    <label for="telefonePrincipal" class="form-label">Telefone Principal</label>
+		    <input type="text" class="form-control" id="telefonePrincipal" name="telefonePrincipal">
+		  </div>
+		  <div class="mb-3 col">
+		    <label for="telefoneEmergencia" class="form-label">Telefone Emergencial</label>
+		    <input type="text" class="form-control" id="telefoneEmergencia" name="telefoneEmergencia">
+		  </div>
+	  </div>
+	  <div class="row">
+		  <div class="mb-3 col-4">
+		    <label for="graduacao" class="form-label">Graduação</label>
+		    <select id="graduacao" name="graduacao" class="form-select" aria-label="Default select example">
+			  <option selected value="Selecione o Posto/Graduação">Selecione o Posto/Graduação</option>
+			  <option value="Coronel">Coronel</option>
+			  <option value="Tenente-Coronel">Tenente-Coronel</option>
+			  <option value="Major">Major</option>
+			  <option value="Capitão">Capitão</option>
+			  <option value="1º Tenente">1º Tenente</option>
+			  <option value="1º Sargento">1º Sargento</option>
+			  <option value="2º Sargento">2º Sargento</option>
+			  <option value="Soldado">Soldado</option>
+			</select>
+		  </div>
+		  <div class="mb-3 col-8">
+		    <label for="email" class="form-label">Email</label>
+		    <input type="email" class="form-control" id="email" name="email">
+		  </div>
+	  </div>
+	  <button type="button" class="btn btn-primary" onclick="salvarMe()">Salvar</button>
+	  <button type="button" class="btn btn-primary" onclick="botaoCancelar()">Cancelar</button>
+	</form>
+</div>
+
+<div class="divformTabelaEfetivo">
+<table class="table table-striped" id="tabelaEfetivo">
+  <thead class="sticky-top table-dark">
+   <tr>
+    <td>Id Func</td>
+    <td>Nome</td>
+    <td>Posto/Graduação</td>
+    <td>Telefone Principal</td>
+    <td>Telefone Emergencial</td>
+    <td>Editar</td>
+    <td>Excluir</td>
+   </tr>
+  </thead>
+  <tbody>
+   
+  </tbody>
+</table>
+</div>
+
+
+<script type="text/javascript">
+
+function botaoCancelar(){
+	var form = document.getElementById('formularioCadastro');
+	form.reset();
+}
+
+function salvarMe(){
+	
+	var id = $("#id").val();
+	var idfunc = $("#idfunc").val();
+	var nome = $("#nome").val();
+	var telefonePrincipal = $("#telefonePrincipal").val();
+	var telefoneEmergencia = $("#telefoneEmergencia").val();
+	var graduacao = $("#graduacao").val();
+	var email = $("#email").val();
+	
+	if (idfunc == null || idfunc != null && idfunc.trim() == '') {
+		alert('Informe a Identidade Funcional');
+		$("#idfunc").focus();
+		return;
+	}
+	if (nome == null || nome != null && nome.trim() == '') {
+		alert('Informe o nome');
+		$("#nome").focus();
+		return;
+	}
+	if (telefonePrincipal == null || telefonePrincipal != null && telefonePrincipal.trim() == '') {
+		alert('Informe o telefone principal');
+		$("#telefonePrincipal").focus();
+		return;
+	}
+	if (graduacao === 'Selecione o Posto/Graduação') {
+		alert('Informe o Posto ou Graduação do ME');
+		return;
+	}
+	
+	$.ajax({
+		method : "POST",
+		url : "salvarMe",
+		data : JSON.stringify({
+			id : id,
+			idfunc : idfunc,
+			nome : nome,
+			telefonePrincipal : telefonePrincipal,
+			telefoneEmergencia : telefoneEmergencia,
+			graduacao : graduacao,
+			email : email
+		}),
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			$("#id").val(response.id);
+			location.reload(true);
+			alert("Militar salvo com sucesso!");
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao salvar Militar " + xhr.responseText)
+	});
+	
+}
+
+function carregarTabela(){
+	
+	$.ajax({
+		method : "GET",
+		url : "listaTodoEfetivo",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+
+		$('#tabelaEfetivo > tbody > tr').remove();
+
+		for (var i = 0; i < response.length; i++) {
+								
+
+			$('#tabelaEfetivo > tbody').append('<tr id="'+response[i].id+'">'+
+			'<td>'+response[i].idfunc+'</td>'+
+			'<td>'+response[i].nome+'</td>'+
+			'<td>'+response[i].graduacao+'</td>'+
+			'<td>'+response[i].telefonePrincipal+'</td>'+
+			'<td>'+response[i].telefoneEmergencia+'</td>'+
+			'<td><button type="button" class="btn btn-primary" onclick="colocarEmEdicao('+response[i].id+')">Editar</button></td>'+
+			'<td><button type="button" class="btn btn-danger" onclick="excluirMe('+response[i].id+')">Excluir</button></td></tr>');
+
+		}
+
+		}
+		}).fail(
+			function(xhr, status, errorThrown) {
+				alert("Erro ao pesquisar ME " + xhr.responseText)
+		});
+	
+}
+
+function colocarEmEdicao(idme) {
+	
+	$.ajax({
+		method : "GET",
+		url : "buscarMePorId",
+		data : "idme=" + idme,
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+	
+			$("#id").val(response.id);
+			$("#idfunc").val(response.idfunc);
+			$("#nome").val(response.nome);
+			$("#idade").val(response.idade);
+			$("#telefonePrincipal").val(response.telefonePrincipal);
+			$("#telefoneEmergencia").val(response.telefoneEmergencia);
+			$("#email").val(response.email);
+			$("#graduacao").val(response.graduacao);
+			
+		}
+	}).fail(function(xhr, status, errorThrown) {
+		alert("Erro ao pesquisar usuário por id " + xhr.responseText)
+	});
+}
+
+function excluirMe(idme){
+	
+	if (confirm('Deseja realmente excluir esse ME?')) {
+		
+		$.ajax({
+			method : "DELETE",
+			url : "deleteMe",
+			data : "idme=" + idme,
+			success : function(response) {
+		
+				$('#'+idme).remove();
+				
+				//alert(response)
+				
+			}
+		}).fail(function(xhr, status, errorThrown) {
+			alert("Erro ao excluir ME " + xhr.responseText)
+		});
+		
+	}
+
+}
+
+$(document).ready(function () {
+	var campoTelefonePrincipal = $("#telefonePrincipal");
+	var campoTelefoneEmergencia = $("#telefoneEmergencia");
+	campoTelefonePrincipal.mask('(00)0000-0000');
+	campoTelefoneEmergencia.mask('(00)0000-0000');
+});
+
+</script>
+
+</body>
+</html>

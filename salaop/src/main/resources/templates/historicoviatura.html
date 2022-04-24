@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Histórico</title>
+	
+	<!-- Bootstrap CSS -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+		
+	<!-- JQuery -->		
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+
+<style type="text/css">
+	.modalMenu {
+		width: 300px;
+	}
+	.titulo {
+		width: 100%;
+		position: absolute;
+		text-align: center;
+	}
+	.modal-content-Menu {
+		width: 300px;
+	}
+	.list-group-item:hover {
+		background-color: rgb(59, 57, 57, 0.164)!important;
+	}
+	a#navbarDropdown {
+		color: black;
+	}
+	.nav-item{
+		padding: 0px;
+	}
+	.card {
+		margin: 50px 0px 25px 50px;
+	}
+	.negrito {
+		font-weight: bold;
+	}
+	#divTabelaHistorico {
+		width: 90%;
+		display: block;
+		margin: 20px auto 0px auto;
+		border: 1px solid gray;
+	    overflow: auto;
+	    padding: 0px 0px 0px 0px;
+	}
+	table>thead>tr>td{
+		font-weight: bold;
+		text-align: center;
+	}
+	table>tbody>tr>td{
+		text-align: center;
+	}
+	.botaoObservacao{
+		color: blue;
+		border: none;
+		background-color: transparent;
+	}
+	.botaoObservacao:hover {
+		color: red;
+		font-weight: bold;
+	}
+	.divTipoViatura {
+		width: 90%;
+		margin: 40px auto 10px auto;
+		display: block;
+	}
+</style>
+
+<script type="text/javascript">
+
+$(function(){
+	
+	var larguraTela = $(window).width();
+	var alturaTela = $(window).height();
+	var alturaMenu = $("#nav-menu").height();
+	var alturaSombra = $(".shadow").height();
+	
+	$("#imagem-logo").width(larguraTela / 10);
+	$("#imagem-logo").height(larguraTela / 10);
+	$("#divTabelaHistorico").height(alturaTela - (alturaMenu + (alturaSombra/2)));
+	
+});
+
+</script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-light bg-light shadow sticky-top">
+  <div class="container-fluid">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#modalMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+<img class="position-fixed top-0 end-0 sticky-top" id="imagem-logo" alt="" src="../imagens/brasao.png" />
+
+
+
+<!-- Modal MENU-->
+	<div class="modal modalMenu fade" id="modalMenu" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content modal-content-Menu">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes" style="text-decoration:none;color:black;">Início</a>
+						</li>
+						
+						<li class="list-group-item nav-item dropdown">
+							
+							<a class="nav-link dropdown-toggle"
+							href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Cadastro</a>
+							
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroefetivo">Efetivo</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastroviaturas">Viaturas</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrotelefones">Telefones</a></li>
+								<li><a class="dropdown-item" href="/Sala-Operacoes/cadastrosaida">Saídas</a></li>
+							</ul>
+						</li>
+						
+						<li class="list-group-item">
+							<a href="/Sala-Operacoes/viaturas" style="text-decoration:none;color:black;">
+								Viaturas
+							</a>
+						</li>
+						<li class="list-group-item">Telefones</li>
+					</ul>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<br>
+<div class="titulo"><h3>Histórico de Saídas</h3></div>
+<a></a>
+<br>
+
+<div class="divTipoViatura">
+	<div class="row">
+		<div class="col">
+			<h5>
+				<p>VTR: 
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'ABT']}"
+				      th:text="${lista.size() > 0 ? 'Auto Bomba Tanque' : ''}"></span>
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'AT']}"
+				      th:text="${lista.size() > 0 ? 'Auto Tanque' : ''}"></span>      
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'ATP']}"
+				      th:text="${lista.size() > 0 ? 'Auto Transporte de Pessoal' : ''}"></span>
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'AEM']}"
+				      th:text="${lista.size() > 0 ? 'Auto Escada Mecânica' : ''}"></span>      
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'AR']}"
+				      th:text="${lista.size() > 0 ? 'Auto Resgate' : ''}"></span>      
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'AGA']}"
+				      th:text="${lista.size() > 0 ? 'Auto Guincho Articulado' : ''}"></span>      
+				<span th:with="lista=${vtrHistorico.?[prefixo == 'EIN']}"
+				      th:text="${lista.size() > 0 ? 'Embarcação Inflável Náutica' : ''}"></span>
+				</p>            
+			</h5>
+		</div>
+		<div class="col">
+			<h6>
+				<p>Total de Registros: 
+				<span th:text = "${vtrHistorico.size()}"></span>
+				</p>            
+			</h6>
+		</div>
+	</div>
+</div>
+      
+<div id="divTabelaHistorico">
+<table class="table table-striped" id="tabelaHistorico">
+  <thead class="sticky-top table-dark">
+   <tr>
+    <td>Viatura</td>
+    <td>Motorista</td>
+    <td>DataSaida</td>
+    <td>HoraSaida</td>
+    <td>DataChegada</td>
+    <td>HoraChegada</td>
+    <td>Destino</td>
+    <td>Observação</td>
+   </tr>
+  </thead>
+  <tbody>
+   <tr th:each="v : ${vtrHistorico}">
+    <td th:text="${v.viatura}"></td>
+    <td th:text="${v.motorista}"></td>
+    <td th:text="${v.dataSaida} == '' ? '' : ${#strings.arraySplit(v.dataSaida,'-')[2]} + '/' + ${#strings.arraySplit(v.dataSaida,'-')[1]} + '/' + ${#strings.arraySplit(v.dataSaida,'-')[0]}" ></td>
+    <td th:text="${v.horaSaida}"></td>
+    <td th:text="${v.dataChegada} == '' ? '' : ${#strings.arraySplit(v.dataChegada,'-')[2]} + '/' + ${#strings.arraySplit(v.dataChegada,'-')[1]} + '/' + ${#strings.arraySplit(v.dataChegada,'-')[0]}"></td>
+    <td th:text="${v.horaChegada}"></td>
+    <td th:text="${v.destino}"></td>
+    <td><button class="botaoObservacao" type="button" th:attr="onclick=|abrirModalObservacao('${v.observacao}')|" >Abrir</button></td>
+   </tr>
+  </tbody>
+</table>
+</div>
+
+
+<!-- Modal OBSERVAÇÃO -->
+
+<div class="modal fade" id="observacaoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalhes do Empenho</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      
+      
+        <label style="margin-right:15px;font-weight:bold;">Observação:</label>
+        <textarea style="width:100%;height:150px;" id="modalObservacao" class="form-control"></textarea>
+      
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIM Modal OBSERVAÇÃO -->
+
+
+<script type="text/javascript">
+
+function abrirModalObservacao(obs){
+	$("#observacaoModal").modal('show');
+	$("#modalObservacao").text(obs);
+}
+
+</script>
+</body>
+</html>
