@@ -72,7 +72,7 @@ public class TelefoneController {
 		return new ResponseEntity<String>("Telefone excluído com sucesso!", HttpStatus.OK);
 		
 	}
-	
+
 	
 	
 	
